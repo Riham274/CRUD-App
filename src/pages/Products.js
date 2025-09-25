@@ -1,18 +1,41 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import './Products.css'
+import "./Products.css";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
 
 function Products() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
+    getAllProducts();
+  }, []);
+
+  const getAllProducts = () => {
     fetch("http://localhost:5000/products")
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
         setProducts(data);
       });
-  }, []);
+  };
+  const deleteProduct = (product) => {
+    Swal.fire({
+      title: `Are you sure to delete ${product.title} ? `,
+      showCancelButton: true,
+    }).then((data) => {
+      if (data.isConfirmed) {
+        fetch(`http://localhost:5000/products/${product.id}`, {
+          method: "DELETE",
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            getAllProducts();
+          });
+      }
+    });
+  };
+
   return (
     <>
       <h1>Products page</h1>
@@ -25,7 +48,6 @@ function Products() {
           <tr>
             <th>ID</th>
             <th>Title</th>
-            <th>Description</th>
             <th>Price</th>
             <th>Operations</th>
           </tr>
@@ -36,12 +58,23 @@ function Products() {
               <tr key={product.id}>
                 <td>{product.id}</td>
                 <td>{product.title}</td>
-                <td>{product.description.slice(0,30)}...</td>
                 <td>{product.price}</td>
 
                 <td>
-                  <button className="btn btn-danger btn-sm m-2">Delete</button>
-                  <Link to={`/products/${product.id}`} className="btn btn-info btn-sm m-2">View</Link>
+                  <button
+                    className="btn btn-danger btn-sm m-2"
+                    onClick={() => {
+                      deleteProduct(product);
+                    }}
+                  >
+                    Delete
+                  </button>
+                  <Link
+                    to={`/products/${product.id}`}
+                    className="btn btn-info btn-sm m-2"
+                  >
+                    View
+                  </Link>
                   <button className="btn btn-primary btn-sm m-2">Edit</button>
                 </td>
               </tr>
