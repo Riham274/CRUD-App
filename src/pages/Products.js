@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Products.css";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
 function Products() {
   const [products, setProducts] = useState([]);
+  let navigate = useNavigate();
 
   useEffect(() => {
     getAllProducts();
@@ -75,7 +76,14 @@ function Products() {
                   >
                     View
                   </Link>
-                  <button className="btn btn-primary btn-sm m-2">Edit</button>
+                  <button
+                    className="btn btn-primary btn-sm m-2"
+                    onClick={() => {
+                      navigate(`/products/edit/${product.id}`);
+                    }}
+                  >
+                    Edit
+                  </button>
                 </td>
               </tr>
             );
