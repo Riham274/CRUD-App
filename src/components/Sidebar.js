@@ -1,9 +1,11 @@
+import { Link } from "react-router";
+
 function Sidebar() {
   return (
     <>
       <ul className="list-unstyled">
         <li>
-          <a href="#">get all products</a>
+          <Link to={'/products'}>get all products</Link>
         </li>
         <li>
           <a href="#">get all cateogries</a>

@@ -5,6 +5,8 @@ import Sidebar from "./components/Sidebar";
 import { Route, Routes } from "react-router";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
+import AddProducts from "./pages/AddProducts";
+import ProductDetails from "./pages/ProductDetails";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="products" element={<Products />} />
+            <Route path="products/add" element={<AddProducts />} />
+            <Route path="products/:productID" element={<ProductDetails />} />
           </Routes>
         </div>
       </div>
